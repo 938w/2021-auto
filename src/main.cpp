@@ -42,14 +42,14 @@ void SetVelocity(int x) {
 }
 void drivefunctions(std::string dir, double x) {
   SetVelocity(50);
-  if (dir == "fwd") {
+  if (dir == "rev") {
     FrontLeft.spin(forward);
     FrontRight.spin(forward);
     BackRight.spin(forward);
     BackLeft.spin(forward);
     wait (x, sec);
   }
-  if (dir == "rev") {
+  if (dir == "fwd") {
     FrontRight.spin(reverse);
     FrontLeft.spin(reverse);
     BackLeft.spin(reverse);
@@ -154,12 +154,15 @@ int main() {
   // drive to goal and release lifts.
   BakLift("down", 100, false);
   wait(0.6, sec);
-  drivefunctions("fwd", 1);
+  SetVelocity(50);
+  drivefunctions("rev", 0.5);
+  SetVelocity(100);
+  drivefunctions("rev", 0.75);
   stap("drivetrain");
-  drivefunctions("fwd", 2.4);
+  drivefunctions("rev", 2.4);
   stap("drivetrain");
   // pick up with backlift
-  BakLift("up", 30, true);
+  BakLift("up", 40, true);
   // turn 190 degrees right
   drivefunctions("rht", 2);
   stap("drivetrain");
@@ -167,18 +170,21 @@ int main() {
   FrontLift("down", 100, false);
   wait(1, sec);
   // go forward to corner
-  drivefunctions("fwd", 1);
-  drivefunctions("lft", 1);
+  drivefunctions("rev", 1);
+  // turn to blue goal
+  drivefunctions("lft", 0.97);
   // go forward to blue goal
-  drivefunctions("rev", 1.4);
+  drivefunctions("fwd", 1.4);
   stap("drivetrain");
   // lift up blue
   FrontLift("up", 70, false);
   wait(1, sec);
+  // back drive
+  drivefunctions("rev", 1.4);
+  drivefunctions("rht", 0.97);
   // back drive to home zone and turn a little
-  drivefunctions("fwd", 1.5);
-  drivefunctions("rght", 0.1);
-  drivefunctions("fwd", 2.5);
+  drivefunctions("rev", 1.5);
+  drivefunctions("rght", 0.2);
+  drivefunctions("rev", 2.5);
   stap("drivetrain");
-
 }
