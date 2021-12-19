@@ -17,174 +17,69 @@
 // MobileLift           motor         5               
 // Intake               motor         6               
 // MobileLift2          motor         7               
-// BackLift             motor         8               
+// LiftbACK             motor         8               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
-
+#include "function.h"
 using namespace vex;
-void SetVelocity(int x) {
-  MobileLift.setVelocity(100,percent);
-  MobileLift.setMaxTorque(100,percent);
-  MobileLift2.setVelocity(100,percent);
-  MobileLift2.setMaxTorque(100,percent);
-  BackLift.setVelocity(100,percent);
-  BackLift.setMaxTorque(100,percent);
-  FrontLeft.setVelocity(x,percent);
-  FrontRight.setVelocity(x,percent);
-  BackLeft.setVelocity(x,percent);
-  BackRight.setVelocity(x,percent);
-  Intake.setVelocity(100,percent);
-  MobileLift.setPosition(0, degrees);
-  MobileLift2.setPosition(0,degrees);
-  MobileLift.setPosition(0, turns);
-  MobileLift2.setPosition(0,turns);
-}
-void drivefunctions(std::string dir, double x) {
-  SetVelocity(50);
-  if (dir == "rev") {
-    FrontLeft.spin(forward);
-    FrontRight.spin(forward);
-    BackRight.spin(forward);
-    BackLeft.spin(forward);
-    wait (x, sec);
-  }
-  if (dir == "fwd") {
-    FrontRight.spin(reverse);
-    FrontLeft.spin(reverse);
-    BackLeft.spin(reverse);
-    BackRight.spin(reverse);
-    wait (x, sec);
 
-  }
-  if (dir == "lft") {
-    FrontRight.setVelocity(30, percent);
-    FrontLeft.setVelocity(30, percent);
-    BackLeft.setVelocity(30, percent);
-    BackRight.setVelocity(30, percent);
-    FrontRight.spin(reverse);
-    FrontLeft.spin(forward);
-    BackRight.spin(reverse);
-    BackLeft.spin(forward);
-    wait (x, sec);
-    FrontRight.setVelocity(100, percent);
-    FrontLeft.setVelocity(100, percent);
-    BackLeft.setVelocity(100, percent);
-    BackRight.setVelocity(100, percent);
-  }
-  if (dir == "rht") {
-    FrontRight.setVelocity(30, percent);
-    FrontLeft.setVelocity(30, percent);
-    BackLeft.setVelocity(30, percent);
-    BackRight.setVelocity(30, percent);
-    FrontRight.spin(forward);
-    FrontLeft.spin(reverse);
-    BackRight.spin(forward);
-    BackLeft.spin(reverse);
-    wait (x, sec);
-    FrontRight.setVelocity(100, percent);
-    FrontLeft.setVelocity(100, percent);
-    BackLeft.setVelocity(100, percent);
-    BackRight.setVelocity(100, percent);
-  }
-  SetVelocity(100);
-}
-void stap (std::string option) {
-  if (option == "drivetrain") {
-  FrontLeft.stop();
-  FrontRight.stop();
-  BackRight.stop();
-  BackLeft.stop();
-  }
-  if (option == "frontlift") {
-    MobileLift.stop();
-    MobileLift2.stop();
-  }
-  if (option == "backlift") {
-    BackLift.stop();
-    BackLift.setStopping(hold);
-  }
-  if (option == "intake") {
-    Intake.stop();
-  }
-}
-
-void FrontLift (std::string dir, double x, bool wait) {
-  if (dir == "up") {
-    MobileLift.spinFor(forward, x*5, degrees, wait);
-    MobileLift2.spinFor(forward, x*5, degrees, wait);
-  }
-  if (dir == "down") {
-    MobileLift.spinFor(reverse, x*5, degrees, wait);
-    MobileLift2.spinFor(reverse, x*5, degrees, wait);
-  }
-}
-void BakLift (std::string dir, double x, bool wait) {
-  if (dir == "up") {
-    BackLift.spinFor(reverse, x*7, degrees, wait);
-    
-  }
-  if (dir == "down") {
-    BackLift.spinFor(forward, x*7, degrees, wait);
-    
-  }
-}
-void drivesetstop() {
-  BackRight.setStopping(hold);
-  BackLeft.setStopping(hold);
-  FrontRight.setStopping(hold);
-  FrontLeft.setStopping(hold);
-}
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  // PLAN:
-  // start on the  left side
-  // start backwards
-  // drive to goal and pick up with backlift
+  
   // DRIVE FUNCTIONS : drivefunctions(direction, waittime) [fwd, rev, lft, rht]
   // STOP FUNCTIONS : stap(option); [drivetrain, frontlift, backlift, intake]
   // FRONT LIFT FUNCTIONS : FrontLift(dir, deg, wait?) [up, down]
-  // BAK LIFT FUNCTIONS : BakLift(dir, deg, wait?) [up, down]
+  // BAK LIFT FUNCTIONS : BackLift(dir, deg, wait?) [up, down]
+  SetVelocity(100);
+
+//task1 pick up blue goal 1
+  // deploy front lift
+  FrontLift("down", 120, false);
+  wait(1, sec);
+  stap("frontlift");
+  // mvoe forward to blue goal 1
+  drivefunctions("fwd", 1);
+  stap("drivetrain");
+  // lift up blue goal on ramp
+  FrontLift("up", 50, false);
+  wait(1, sec);
+  stap("frontlift");
+
   
-  // PLAN:
-  // start on the  left side
-  SetVelocity(100);
-  // start backwards
-  // drive to goal and release lifts.
-  BakLift("down", 100, false);
-  wait(0.6, sec);
-  SetVelocity(50);
-  drivefunctions("rev", 0.5);
-  SetVelocity(100);
-  drivefunctions("rev", 0.75);
+wait (1, sec);
+//setup robot for neutral goal
+  // drive back out of the platform
+  drivefunctions("rev", 0.4);
   stap("drivetrain");
-  drivefunctions("rev", 2.4);
-  stap("drivetrain");
-  // pick up with backlift
-  BakLift("up", 40, true);
-  // turn 190 degrees right
-  drivefunctions("rht", 2);
+  wait(0.5, sec);
+  //turn so doesnt hit wall
+  FrontRight.setVelocity(80, percent);
+  FrontLeft.setVelocity(830, percent);
+  BackLeft.setVelocity(80, percent);
+  BackRight.setVelocity(80, percent);
+  FrontRight.spin(reverse);
+  BackRight.spin(reverse);
+  wait (0.8, sec);
+  FrontRight.setVelocity(100, percent);
+  FrontLeft.setVelocity(100, percent);
+  BackLeft.setVelocity(100, percent);
+  BackRight.setVelocity(100, percent);
   stap("drivetrain");
   drivesetstop();
-  FrontLift("down", 100, false);
-  wait(1, sec);
-  // go forward to corner
-  drivefunctions("rev", 1);
-  // turn to blue goal
-  drivefunctions("lft", 0.97);
-  // go forward to blue goal
-  drivefunctions("fwd", 1.4);
+
+  
+
+wait(1, sec);
+//drive and oush neutral goal
+  drivefunctions("fwd", 3);
   stap("drivetrain");
-  // lift up blue
-  FrontLift("up", 70, false);
-  wait(1, sec);
-  // back drive
-  drivefunctions("rev", 1.4);
-  drivefunctions("rht", 0.97);
-  // back drive to home zone and turn a little
-  drivefunctions("rev", 1.5);
-  drivefunctions("rght", 0.2);
-  drivefunctions("rev", 2.5);
-  stap("drivetrain");
+  drivesetstop();
+
+
+
+
+
 }
+

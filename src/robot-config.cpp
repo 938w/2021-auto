@@ -15,7 +15,7 @@ motor BackRight = motor(PORT4, ratio18_1, false);
 motor MobileLift = motor(PORT5, ratio36_1, false);
 motor Intake = motor(PORT6, ratio18_1, false);
 motor MobileLift2 = motor(PORT7, ratio36_1, true);
-motor BackLift = motor(PORT8, ratio36_1, false);
+motor LiftbACK = motor(PORT8, ratio36_1, false);
 
 // VEXcode generated functions
 

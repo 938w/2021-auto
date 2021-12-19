@@ -10,7 +10,7 @@ extern motor BackRight;
 extern motor MobileLift;
 extern motor Intake;
 extern motor MobileLift2;
-extern motor BackLift;
+extern motor LiftbACK;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
