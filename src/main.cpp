@@ -18,14 +18,15 @@
 // Intake               motor         6               
 // MobileLift2          motor         7               
 // LiftbACK             motor         8               
+// Inertial             inertial      9               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
 #include "function.h"
 using namespace vex;
-
+int lol = 1;
 int main() {
-  // Initializing Robot Configuration. DO NOT REMOVE!
+  /*// Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   
   // DRIVE FUNCTIONS : drivefunctions(direction, waittime) [fwd, rev, lft, rht]
@@ -43,41 +44,92 @@ int main() {
   drivefunctions("fwd", 1);
   stap("drivetrain");
   // lift up blue goal on ramp
-  FrontLift("up", 50, false);
-  wait(1, sec);
+  FrontLift("up", 70, false);
+  wait(0.8, sec);
   stap("frontlift");
-
-  
-wait (1, sec);
 //setup robot for neutral goal
   // drive back out of the platform
-  drivefunctions("rev", 0.4);
+  drivefunctions("rev", 0.45);
   stap("drivetrain");
   wait(0.5, sec);
   //turn so doesnt hit wall
-  FrontRight.setVelocity(80, percent);
-  FrontLeft.setVelocity(830, percent);
-  BackLeft.setVelocity(80, percent);
-  BackRight.setVelocity(80, percent);
+  SetVelocity(70); 
   FrontRight.spin(reverse);
   BackRight.spin(reverse);
-  wait (0.8, sec);
-  FrontRight.setVelocity(100, percent);
-  FrontLeft.setVelocity(100, percent);
-  BackLeft.setVelocity(100, percent);
-  BackRight.setVelocity(100, percent);
+  wait (0.2, sec);
+  drivefunctions("fwd", 0.2);
+  stap("drivetrain");
+  FrontRight.spin(reverse);
+  BackRight.spin(reverse);
+  wait(0.58, sec);
+  stap("drivetrain");
+  wait (0.1, sec);
+  drivesetstop();
+  SetVelocity(100);
+
+
+  wait(0.5, sec);
+//drive and push neutral goal
+  drivefunctions("fwd", 5);
   stap("drivetrain");
   drivesetstop();
+//
+  drivefunctions("rev", 0.5);
+//
+  drivefunctions("rht", 0.4);
+  stap("drivetrain");
+  drivesetstop();
+drivefunctions("fwd", 0.3);
+stap("drivetrain");
+//
+  FrontLift("down", 70, false);
+  wait(1, sec); 
+  stap("frontlift");
+//
+  drivefunctions("rev", 0.3);
+  stap("drivetrain");
+//
+  BackLift("down", 95, false);
+  wait(1, sec);
+  stap("backlift");
+//
+  drivefunctions("rev", 0.6);
+  stap("drivetrain");
 
+*/
+
+
+  SetVelocity(100);
+  Inertial.resetRotation();
+  drivefunctions("fwd", 1);
+  stap("drivetrain");
+  SetVelocity(30);
+  while (true) {
   
+    Brain.Screen.clearScreen();
+    Brain.Screen.newLine();
+    Brain.Screen.print(Inertial.roll());
+    wait(10, msec);
+    SetVelocity(Inertial.roll()*4);
+    if (Inertial.roll() < -10) {
+      FrontRight.spin(reverse);
+      FrontLeft.spin(reverse);
+      BackLeft.spin(reverse);
+      BackRight.spin(reverse);
+    } else if ( Inertial.roll() > 10) {
+      FrontLeft.spin(forward);
+      FrontRight.spin(forward);
+      BackRight.spin(forward);
+      BackLeft.spin(forward);
+      
+    } else {
+     stap("drivetrain");
+     drivesetstop();
+    }
+  
+    
 
-wait(1, sec);
-//drive and oush neutral goal
-  drivefunctions("fwd", 3);
-  stap("drivetrain");
-  drivesetstop();
-
-
+  }
 
 
 

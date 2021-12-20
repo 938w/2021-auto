@@ -1,13 +1,13 @@
 #include "vex.h"
 
-void SetVelocity(int x) {
+void SetVelocity(double x) {
   MobileLift.setVelocity(100,percent);
   MobileLift.setMaxTorque(100,percent);
   MobileLift2.setVelocity(100,percent);
   MobileLift2.setMaxTorque(100,percent);
   LiftbACK.setVelocity(100,percent);
   LiftbACK.setMaxTorque(100,percent);
-  FrontLeft.setVelocity(x,percent);
+  FrontLeft.setVelocity(x, percent);
   FrontRight.setVelocity(x,percent);
   BackLeft.setVelocity(x,percent);
   BackRight.setVelocity(x,percent);

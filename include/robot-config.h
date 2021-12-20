@@ -11,6 +11,7 @@ extern motor MobileLift;
 extern motor Intake;
 extern motor MobileLift2;
 extern motor LiftbACK;
+extern inertial Inertial;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
