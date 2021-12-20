@@ -24,7 +24,7 @@
 #include "vex.h"
 #include "function.h"
 using namespace vex;
-int lol = 1;
+double lol = 1;
 int main() {
   /*// Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -101,30 +101,45 @@ stap("drivetrain");
 
   SetVelocity(100);
   Inertial.resetRotation();
-  drivefunctions("fwd", 1);
+  drivesetstop();
+  FrontLift("down", 120, false);
+  wait(1, sec);
+  stap("frontlift");
+  Inertial.resetRotation();
+  wait(0.5, sec);
+  FrontRight.spin(reverse);
+      FrontLeft.spin(reverse);
+      BackLeft.spin(reverse);
+      BackRight.spin(reverse);
+  wait(1, sec);
+  FrontLift("up", 100, false);
+  wait(0.2, sec);
   stap("drivetrain");
   SetVelocity(30);
   while (true) {
-  
     Brain.Screen.clearScreen();
     Brain.Screen.newLine();
     Brain.Screen.print(Inertial.roll());
     wait(10, msec);
-    SetVelocity(Inertial.roll()*4);
+    lol = Inertial.roll();
+    if (lol < 0) {
+      lol = lol*-1;
+    }
+    SetVelocity((lol));
     if (Inertial.roll() < -10) {
       FrontRight.spin(reverse);
       FrontLeft.spin(reverse);
       BackLeft.spin(reverse);
       BackRight.spin(reverse);
-    } else if ( Inertial.roll() > 10) {
+    } else if (Inertial.roll() > 10) {
       FrontLeft.spin(forward);
       FrontRight.spin(forward);
       BackRight.spin(forward);
       BackLeft.spin(forward);
       
     } else {
-     stap("drivetrain");
-     drivesetstop();
+      stap("drivetrain");
+      drivesetstop();
     }
   
     

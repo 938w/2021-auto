@@ -76,6 +76,8 @@ void stap (std::string option) {
   if (option == "frontlift") {
     MobileLift.stop();
     MobileLift2.stop();
+    MobileLift2.setStopping(hold);
+    MobileLift.setStopping(hold);
   }
   if (option == "backlift") {
     LiftbACK.stop();
